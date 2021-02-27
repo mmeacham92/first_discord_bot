@@ -7,10 +7,16 @@ const PREFIX = "!";
 
 client.on("ready", () => {
   console.log(`${client.user.tag} has logged in.`);
+  client.channels.fetch('815250857561554984')
+  .then(channel => channel.send(`${client.user.tag} is online!`));
 });
 
 client.on("message", (message) => {
   console.log(`${message.author.tag}: ${message.content}`);
+
+  if (Math.random() > 0.9 && !message.author.bot) {
+    message.reply("YOU A BITCH");
+  }
 
   if (message.content.startsWith(PREFIX)) {
     const input = message.content.slice(PREFIX.length).trim().split(" ");
@@ -31,11 +37,27 @@ client.on("message", (message) => {
       fetch(`https://pokeapi.co/api/v2/pokemon/${command}`)
         .then((response) => response.json())
         .then((data) => {
+          id = data.id;
           if (shiny) message.channel.send(data.sprites.front_shiny);
           else message.channel.send(data.sprites.front_default);
+
+          fetch(`https://pokeapi.co/api/v2/pokemon-species/${data.id}/`)
+          .then((res) => res.json())
+          .then((data) => {
+              const texts = data.flavor_text_entries.filter(item => item.language.name === 'en');
+              console.log(texts);
+              const i = Math.floor(Math.random() * texts.length);
+              console.log(i);
+              message.channel.send(texts.flavor_text_entries[i].flavor_text);
+          })
+          .catch(console.error);
         })
         .catch(console.error);
     }
+  }
+
+  if (message.content.toLowerCase().includes("lol")) {
+    message.reply("that aint funny");
   }
 
   if (message.content.toLowerCase() === "hello") {
@@ -43,11 +65,5 @@ client.on("message", (message) => {
   }
 });
 
-const fetchPokemon = async (pokemon) => {
-  fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch(console.error);
-};
 
 client.login(process.env.DISCORDJS_BOT_TOKEN);
