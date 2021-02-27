@@ -48,7 +48,7 @@ client.on("message", (message) => {
               console.log(texts);
               const i = Math.floor(Math.random() * texts.length);
               console.log(i);
-              message.channel.send(texts.flavor_text_entries[i].flavor_text);
+              message.channel.send(texts[i].flavor_text);
           })
           .catch(console.error);
         })
