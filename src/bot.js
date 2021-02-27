@@ -14,9 +14,9 @@ client.on("ready", () => {
 client.on("message", (message) => {
   console.log(`${message.author.tag}: ${message.content}`);
 
-  if (Math.random() > 0.9 && !message.author.bot) {
-    message.reply("YOU A BITCH");
-  }
+//   if (Math.random() > 0.9 && !message.author.bot) {
+//     message.reply("YOU A BITCH");
+//   }
 
   if (message.content.startsWith(PREFIX)) {
     const input = message.content.slice(PREFIX.length).trim().split(" ");
