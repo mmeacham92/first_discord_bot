@@ -33,6 +33,9 @@ client.on("message", (message) => {
         .catch(console.error);
     }
 
+    if (command === 'fuckyourself')
+    message.channel.send('Fuck you bro');
+
     if (fetch(`https://pokeapi.co/api/v2/pokemon/${command}`)) {
       fetch(`https://pokeapi.co/api/v2/pokemon/${command}`)
         .then((response) => response.json())
